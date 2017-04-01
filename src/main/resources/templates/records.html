@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+
+    <title>Records</title>
+
+    <!-- Bootstrap Core CSS -->
+	<link th:href="@{/css/bootstrap.min.css}" href="/css/bootstrap.min.css" rel="stylesheet" type="text/css"></link>
+    <!-- Custom CSS -->
+    <link th:href="@{/css/simple-sidebar.css}" href="/css/simple-sidebar.css"  rel="stylesheet" type="text/css" />
+	<style>
+    	.error {
+        	color: red; font-weight: bold;
+    	}
+    </style>
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                </li>
+                <li>
+                	<form th:action="@{/logout}" method="post">
+            			<input type="hidden" value="Sign Out"/>
+        				<button type="submit" name="submit_param" value="submit_value" class="link-button">
+        				Logout
+  						</button>
+        			</form>
+                </li>
+                <li>
+                    <a href="/reports">Reports</a>
+                </li>
+                <li>
+                    <a href="/vehicles">Vehicles</a>
+                </li>
+                <li>
+                    <a href="/records">Records</a>
+                </li>
+                <li>
+                    <a href="/about">About</a>
+                </li>
+                <li>
+                    <a href="/contact">Contact</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1>Records page</h1>
+						<h2>Add Record</h2>
+        				<form action="#" th:action="@{/addRecord}" th:object="${record}" method="POST">
+  							<div class="form-group">
+    							<label for="weekending">Week Ending</label>
+    							<input class="form-control" id="weekending" th:field="*{weekending}" name="weekending" placeholder="MM/DD/YYYY" type="text"/>
+  								<div th:if="${#fields.hasErrors('weekending')}" th:errors="*{weekending}" class="error"></div>
+  								<label for="unitNumber">Unit number</label>
+    							<select class="form-control" th:field="*{unitNumber}" id="unitNumber" name="unitNumber">
+    								<option th:each="vehicle : ${vehicleList}" th:value="${vehicle.unitNumber}" th:text="${vehicle.unitNumber}"></option>
+    							</select>
+    							<label for="state">State</label>
+    							<select class="form-control" id="state" name="state">
+   									<option th:each="stateSelect : ${T(com.example.models.US).values()}"
+          								th:value="${stateSelect}" 
+          								th:text="${stateSelect}">
+   									</option>
+								</select>
+
+								<label for="miles">Miles</label>
+								<input class="form-control" type="text" id="miles" name="miles" value="0"/><br />
+								<label for="fuel">Fuel Purchased</label>
+							    <input class="form-control" type="text" id="fuel" name="fuel" value="0"/><br />								
+  							</div>
+            				
+            				<!-- <input type="submit" /> -->
+            				<button type="submit" class="btn btn-primary">Submit</button>
+            				<a href="/main" class="btn btn-default">Cancel</a>
+        				</form>
+        				
+        				<table>
+            				<thead>
+                				<tr>
+                    				<th>Record Number</th>
+                    				<th>Week Ending</th>
+                    				<th>Unit Number</th>
+                				</tr>
+            				</thead>
+            				<tbody>
+                				<tr th:each="record : ${recordList}">
+                					<td><a th:href="${'/getRecord/' + record.id}">Details</a></td>
+                    				<!-- <td th:text="${record.weekending}"></td> -->
+                    				<td th:text="${#dates.format(record.weekending, 'dd-MMM-yyyy')}"></td>
+                    				
+                    				<td><a th:href="${'/deleteRecord/' + record.id}">Delete</a></td>
+                    				<td></td>
+                				</tr>
+            				</tbody>
+        				</table>                        
+                        <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/js/bootstrap.min.js"></script>
+    
+    <!-- Include Date Range Picker -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+
+    <!-- Menu Toggle Script -->
+    <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    </script>
+    
+    <script>
+    $(document).ready(function(){
+      var date_input=$('input[name="weekending"]'); //our date input has the name "weekending"
+      var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+      var options={
+        format: 'mm/dd/yyyy',
+        container: container,
+        todayHighlight: true,
+        autoclose: true,
+      };
+      date_input.datepicker(options);
+    })
+</script>
+
+</body>
+
+</html>

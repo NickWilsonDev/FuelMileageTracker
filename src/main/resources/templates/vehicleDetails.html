@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+
+    <title>FuelMileageTaxTracker Vehicle Details</title>
+
+    <!-- Bootstrap Core CSS -->
+	<link th:href="@{/css/bootstrap.min.css}" href="/css/bootstrap.min.css" rel="stylesheet" type="text/css"></link>
+    <!-- Custom CSS -->
+    <link th:href="@{/css/simple-sidebar.css}" href="/css/simple-sidebar.css"  rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                </li>
+                <li>
+                	<form th:action="@{/logout}" method="post">
+            			<input type="hidden" value="Sign Out"/>
+        				<button type="submit" name="submit_param" value="submit_value" class="link-button">
+        				Logout
+  						</button>
+        			</form>
+                </li>
+                <li>
+                    <a href="/reports">Reports</a>
+                </li>
+                <li>
+                    <a href="/vehicles">Vehicles</a>
+                </li>
+                <li>
+                    <a href="/records">Records</a>
+                </li>
+                <li>
+                    <a href="/about">About</a>
+                </li>
+                <li>
+                    <a href="/contact">Contact</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1>Vehicles page</h1>
+						<h2>View Details / Update Vehicle</h2>
+        				<form th:action="@{'/updateVehicle/' + ${vehicle.id}}" method="POST">
+  							<div class="form-group">
+  								<label for="unitNumber" class="col-2 col-form-label">Unit Number</label>
+  								<div class="col-10">
+  								<input class="form-control" type="text" th:field="*{vehicle.unitNumber}"></input>
+  								</div>
+    							<label for="description">Description</label>
+    							<textarea class="form-control" th:field="*{vehicle.description}" rows="5"></textarea>
+  							</div>
+            				
+            				<!-- <input type="submit" /> -->
+            				<button type="submit" class="btn btn-primary">Update</button>
+            				<a href="/vehicles" class="btn btn-default">Cancel</a>
+        				</form>
+        				
+                        <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/js/bootstrap.min.js"></script>
+
+    <!-- Menu Toggle Script -->
+    <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    </script>
+
+</body>
+
+</html>

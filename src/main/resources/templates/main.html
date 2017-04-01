@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+
+    <title>Fuel Mileage Tax Tracker</title>
+
+    <!-- Bootstrap Core CSS -->
+	<link th:href="@{/css/bootstrap.min.css}" href="/css/bootstrap.min.css" rel="stylesheet" type="text/css"></link>
+    <!-- Custom CSS -->
+    <link href="css/simple-sidebar.css" rel="stylesheet"></link>
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                </li>
+                <li>
+                	<form th:action="@{/logout}" method="post">
+            			<input type="hidden" value="Sign Out"/>
+        				<button type="submit" name="submit_param" value="submit_value" class="link-button">
+        				Logout
+  						</button>
+        			</form>
+                </li>
+                <li>
+                    <a href="/reports">Reports</a>
+                </li>
+                <li>
+                    <a href="/vehicles">Vehicles</a>
+                </li>
+                <li>
+                    <a href="/records">Records</a>
+                </li>
+                <li>
+                    <a href="/about">About</a>
+                </li>
+                <li>
+                    <a href="/contact">Contact</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1>Main Home page</h1>
+                        <p>This application provides an easy way to add and edit fuel records and vehicles.
+                           Based on the data entered this application can generate reports for calculating fuel
+                           taxes.  It will generate a table and some charts from the data based on the date
+                           ranges that the user selects.</p>
+                        
+                        <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Menu Toggle Script -->
+    <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+
+    <title>Vehicles</title>
+
+    <!-- Bootstrap Core CSS -->
+	<link th:href="@{/css/bootstrap.min.css}" href="/css/bootstrap.min.css" rel="stylesheet" type="text/css"></link>
+    <!-- Custom CSS -->
+    <link th:href="@{/css/simple-sidebar.css}" href="/css/simple-sidebar.css"  rel="stylesheet" type="text/css" />
+	<style>
+    	.error {
+        	color: red; font-weight: bold;
+    	}
+    </style>
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                </li>
+                <li>
+                	<form th:action="@{/logout}" method="post">
+            			<input type="hidden" value="Sign Out"/>
+        				<button type="submit" name="submit_param" value="submit_value" class="link-button">
+        				Logout
+  						</button>
+        			</form>
+                </li>
+                <li>
+                    <a href="/reports">Reports</a>
+                </li>
+                <li>
+                    <a href="/vehicles">Vehicles</a>
+                </li>
+                <li>
+                    <a href="/records">Records</a>
+                </li>
+                <li>
+                    <a href="/about">About</a>
+                </li>
+                <li>
+                    <a href="/contact">Contact</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1>Vehicles page</h1>
+						<h2>Add Vehicle</h2> 
+						
+        				
+        				<form action="#" th:action="@{/addVehicle}" th:object="${vehicle}" method="POST">
+  							<div class="form-group">
+  								<label for="unitNumber" class="col-2 col-form-label">Unit Number</label>
+  								<div class="col-10">
+    								<input class="form-control" type="text" th:field="*{unitNumber}" value="" id="unitNumber" name="unitNumber"></input>
+  									<div th:if="${#fields.hasErrors('unitNumber')}" th:errors="*{unitNumber}" class="error"></div>
+  								</div>
+            				
+    							<label for="description">Description</label>
+    							<textarea class="form-control" th:field="*{description}" id="description" name="description" rows="5"></textarea>
+  							</div>
+            				
+            				<!-- <input type="submit" /> -->
+            				<button type="submit" class="btn btn-primary">Submit</button>
+            				<a href="/main" class="btn btn-default">Cancel</a>
+        				</form>
+        				<table>
+            				<thead>
+                				<tr>
+                    				<th>Unit Number</th>
+                    				<th>Description</th>
+                				</tr>
+            				</thead>
+            				<tbody>
+                				<tr th:each="vehicle : ${vehicleList}">
+                					<td><a th:href="${'/getVehicle/' + vehicle.id}">Details</a></td>
+                    				<td th:text="${vehicle.unitNumber}"></td>
+                    				<td th:text="${vehicle.description}"></td>
+                    				
+                    				<td><a th:href="${'/deleteVehicle/' + vehicle.id}">Delete</a></td>
+                    				<td></td>
+                				</tr>
+            				</tbody>
+        				</table>                        
+                        <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/js/bootstrap.min.js"></script>
+
+    <!-- Menu Toggle Script -->
+    <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    </script>
+
+</body>
+
+</html>
