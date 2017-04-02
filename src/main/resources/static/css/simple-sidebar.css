@@ -73,6 +73,9 @@
     text-decoration: none;
     color: #999999;
 }
+.sidebar-nav li img {
+	float: left;
+}
 
 .sidebar-nav li a:hover {
     text-decoration: none;

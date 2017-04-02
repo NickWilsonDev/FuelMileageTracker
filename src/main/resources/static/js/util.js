@@ -1,3 +1,4 @@
+
 function allRecordsForOneUnitAjax() {
         $.ajax({
             url : 'ajaxAllRecordsByUnitNumber.html',
@@ -135,8 +136,6 @@ function allRecordsForOneUnitAjax() {
         			return color(d.data.key);
         		})
         		.on("mouseover", function(d){
-        			//console.log(d.data.key);
-        			//tooltip.select('.label').html("Unit " + d.data.key);
         			tooltip.select('.label').html("<center>" + d.data.key + "<br>" + d.data.value.miles + " miles" + "</center>");                // NEW
         			tooltip.transition()
                     	.duration(500)
@@ -144,6 +143,7 @@ function allRecordsForOneUnitAjax() {
                     
         		.on("mousemove", function(){return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
         		.on("mouseout", function(){return tooltip.style("opacity", 0);});
+  
         	/* animate filling of slices */
         	path.transition()
             	.duration(function(d, i) {
@@ -190,20 +190,12 @@ function allRecordsForOneUnitAjax() {
         		.attr('transform', 'translate(' + (width / 2) +
         			',' + (height / 2) + ')');
 	        
-        	//var tooltip = d3.select("body")
-        	//	.append("div")
-        	//	.style("position", "absolute")
-        	//	.style("z-index", "10")
-        	//	.style("visibility", "hidden")
-        	//	.text("Unit Number: ");
         	var tooltip = d3.select("body")
 				.append("div")
 				.attr('class', 'tooltip')
 				.style("opacity", 0);
         	tooltip.append('div')
 				.attr('class', 'label');
-	      //---------------------- begin tooltip ------------------------------
-	        //--------------------- end tooltip -----------------------------
 	        
         	var arc = d3.arc()
     		.innerRadius(0)
@@ -224,14 +216,13 @@ function allRecordsForOneUnitAjax() {
         			return color(d.data.key);
         		})
         		.on("mouseover", function(d){
-        			//tooltip.text(d.data.key + '\n' + d.data.value.fuel + " gallons"); // this will display text
         			tooltip.select('.label').html("<center>" + d.data.key + "<br>" + d.data.value.fuel + " gallons" + "</center>");                // NEW
         			tooltip.transition()
                     	.duration(500)
         				.style('opacity', 1);})
-        			//return tooltip.style("visibility", "visible");})
         			.on("mousemove", function(){return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
         			.on("mouseout", function(){return tooltip.style("opacity", 0);});
+        	
         	/* animate filling of slices */
         	path.transition()
             	.duration(function(d, i) {
