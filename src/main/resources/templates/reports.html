@@ -12,21 +12,18 @@
 		#horizontalChartContainer{
 			width: 100%;
     		float: left;
-    		//background-color: red;
     		border: 1px solid blue
 		}
 
 		.reportElement{
 			float: left;
-    		//display: inline-block;
     		margin-left: 10px;
 		}
 		
-		div.tooltip {                                                        /* NEW */
-        	background: #eee;                                               /* NEW */
+		.tooltip {                                                        /* NEW */
+        	background: #9999ff;                                               /* NEW */
         	box-shadow: 0 0 5px #999999;                                    /* NEW */
-        	color: #333;                                                    /* NEW */
-        	display: none;                                                  /* NEW */
+        	color: #9999ff;                                                    /* NEW */
         	font-size: 12px;                                                /* NEW */
         	left: 130px;                                                    /* NEW */
         	padding: 10px;                                                  /* NEW */
@@ -35,8 +32,8 @@
         	top: 95px;                                                      /* NEW */
         	width: 80px;                                                    /* NEW */
         	z-index: 10;                                                    /* NEW */
+        	pointer-events:none
       }           
-		
 		
 	</style>
 </head>
@@ -168,8 +165,8 @@
 
 	<!-- load the d3.js library -->    
 	<script src="/js/d3.min.js"></script>"
-	<!-- ajax call ect -->
-	<script src="/js/ajaxCalls.js"></script>
+	<!-- ajax calls ect -->
+	<script src="/js/util.js"></script>
 	
 <script>
     $(document).ready(function(){

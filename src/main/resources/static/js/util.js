@@ -1,4 +1,4 @@
-    function allRecordsForOneUnitAjax() {
+function allRecordsForOneUnitAjax() {
         $.ajax({
             url : 'ajaxAllRecordsByUnitNumber.html',
             data: { unitNumber: document.getElementById('unitNumber').value
@@ -38,7 +38,7 @@
 				generateTable(obj, statesSet);
 				drawMileagePieChart(d3, data);
 				drawFuelPieChart(d3, data);
-				drawMultiLineChart(d3, data);
+				//drawMultiLineChart(d3, data);
 			}
 		})
 	}
@@ -102,22 +102,19 @@
         	var color = d3.scaleOrdinal(d3.schemeCategory20b);
 	        	
         	var svg = d3.select('#pieChartAllMiles')
-        		.append('svg')
-        		.attr('width', width)
-        		.attr('height', height)
-        		.append('g')
-        		.attr('transform', 'translate(' + (width / 2) +
-        			',' + (height / 2) + ')');
+        			.append('svg')
+        			.attr('width', width)
+        			.attr('height', height)
+        			.append('g')
+        			.attr('transform', 'translate(' + (width / 2) +
+        					',' + (height / 2) + ')');
 	        
         	var tooltip = d3.select("body")
-        		.append("div")
-        		.style("position", "absolute")
-        		.style("z-index", "10")
-        		.style("visibility", "hidden")
-        		.text("Unit Number: ");
-	        
-	      //---------------------- begin tooltip ------------------------------
-	        //--------------------- end tooltip -----------------------------
+        			.append("div")
+        			.attr('class', 'tooltip')
+        			.style("opacity", 0);
+        		tooltip.append('div')
+        			.attr('class', 'label');
 	        
         	var arc = d3.arc()
     		.innerRadius(0)
@@ -138,10 +135,15 @@
         			return color(d.data.key);
         		})
         		.on("mouseover", function(d){
-        			tooltip.text(d.data.key + '\n' + d.data.value.miles + " miles");
-        			return tooltip.style("visibility", "visible");})
-        			.on("mousemove", function(){return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
-        			.on("mouseout", function(){return tooltip.style("visibility", "hidden");});
+        			//console.log(d.data.key);
+        			//tooltip.select('.label').html("Unit " + d.data.key);
+        			tooltip.select('.label').html("<center>" + d.data.key + "<br>" + d.data.value.miles + " miles" + "</center>");                // NEW
+        			tooltip.transition()
+                    	.duration(500)
+        				.style('opacity', 1);})
+                    
+        		.on("mousemove", function(){return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
+        		.on("mouseout", function(){return tooltip.style("opacity", 0);});
         	/* animate filling of slices */
         	path.transition()
             	.duration(function(d, i) {
@@ -217,9 +219,10 @@
         			return color(d.data.key);
         		})
         		.on("mouseover", function(d){
-        			tooltip.text(d.data.key + '\n' + d.data.value.fuel + " gallons");
+        			//tooltip.text(d.data.key + '\n' + d.data.value.fuel + " gallons"); // this will display text
+        			
         			return tooltip.style("visibility", "visible");})
-        			.on("mousemove", function(){return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
+        			//.on("mousemove", function(){return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
         			.on("mouseout", function(){return tooltip.style("visibility", "hidden");});
         	/* animate filling of slices */
         	path.transition()
