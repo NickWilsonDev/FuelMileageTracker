@@ -90,12 +90,13 @@
             				<a href="/main" class="btn btn-default">Cancel</a>
         				</form>
         				
-        				<table>
+        				<table border="1">
             				<thead>
                 				<tr>
                     				<th>Record Number</th>
                     				<th>Week Ending</th>
                     				<th>Unit Number</th>
+                    				<th></th>
                 				</tr>
             				</thead>
             				<tbody>
@@ -103,7 +104,7 @@
                 					<td><a th:href="${'/getRecord/' + record.id}">Details</a></td>
                     				<!-- <td th:text="${record.weekending}"></td> -->
                     				<td th:text="${#dates.format(record.weekending, 'dd-MMM-yyyy')}"></td>
-                    				
+                    				<td th:text="${record.unitNumber}"></td>
                     				<td><a th:href="${'/deleteRecord/' + record.id}">Delete</a></td>
                     				<td></td>
                 				</tr>

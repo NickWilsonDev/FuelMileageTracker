@@ -39,7 +39,7 @@ function allRecordsForOneUnitAjax() {
 				generateTable(obj, statesSet);
 				drawMileagePieChart(d3, data);
 				drawFuelPieChart(d3, data);
-				//drawMultiLineChart(d3, data);
+				drawMultiLineChart(d3, data);
 			}
 		})
 	}
@@ -244,7 +244,9 @@ function allRecordsForOneUnitAjax() {
 		function drawMultiLineChart(d3, jsonString) {
 			console.log(JSON.stringify(jsonString));
 			var dataset = JSON.parse(jsonString); 
-	        //console.log("dataset " + dataset);
+	        console.log("datset after JSON parse -----------");
+			console.log("dataset " + dataset);
+			// group by unit number
 	        var datasetGroupByUnitNumber = d3.nest()
 	        			.key(function(d) { return d.unitNumber; })
 	        			.entries(dataset);
@@ -256,73 +258,75 @@ function allRecordsForOneUnitAjax() {
 	        }
 	        // temp values will need changing
 	     // Set the dimensions of the canvas / graph
-	        var margin = {top: 30, right: 20, bottom: 30, left: 50},
-	            width = 600 - margin.left - margin.right,
-	            height = 270 - margin.top - margin.bottom;
-
-	     // Parse the date / time
-	        var parseDate = d3.time.format("%b %Y").parse; 
-
+	        //var margin = {top: 30, right: 20, bottom: 30, left: 50},
+	        //    width = 600 - margin.left - margin.right,
+	        //    height = 270 - margin.top - margin.bottom;
 	        
+	        //var vis = d3.select("#multiLineChartOverTime"),
+	        //WIDTH = 1000,
+	        //HEIGHT = 500,
+	        //MARGINS = {
+	        //    top: 20,
+	        //    right: 20,
+	        //    bottom: 20,
+	        //    left: 50
+	        //},
 	        
-	     // Set the ranges
-	        var x = d3.time.scale().range([0, width]);
-	        var y = d3.scale.linear().range([height, 0]);
-        	
-	     // Define the axes
-	        var xAxis = d3.svg.axis().scale(x)
-	            .orient("bottom").ticks(5);
-
-	        var yAxis = d3.svg.axis().scale(y)
-	            .orient("left").ticks(5);
-	        
-	        
-	     // Define the line
-	        var priceline = d3.svg.line()
-	            .x(function(d) { return x(d.date); })
-	            .y(function(d) { return y(d.price); });
-	        
-	     // Adds the svg canvas
-        	var svg = d3.select('#multiLineChartOverTime')
-    		.append('svg')
-    		.attr('width', width)
-    		.attr('height', height)
-    		.append("g")
-    		.attr("transform", 
-              "translate(" + margin.left + "," + margin.top + ")");
-    		
-// not done will need to iterate over data ect        	
-        	
-        	// Scale the range of the data
-            x.domain(d3.extent(data, function(d) { return d.date; }));
-            y.domain([0, d3.max(data, function(d) { return d.miles; })]); 
-
-            // Nest the entries by symbol
-            var dataNest = d3.nest()
-                .key(function(d) {return d.symbol;})
-                .entries(data);
-
-            // Loop through each symbol / key
-            dataNest.forEach(function(d) {
-
-                svg.append("path")
-                    .attr("class", "line")
-                    .attr("d", priceline(d.values)); 
-
+	        var color = d3.scaleOrdinal(d3.schemeCategory20b);
+            var vis = d3.select("#multiLineChartOverTime"),
+                WIDTH = 1000,
+                HEIGHT = 500,
+                MARGINS = {
+                    top: 50,
+                    right: 20,
+                    bottom: 50,
+                    left: 50
+                },
+                lSpace = WIDTH/datasetGroupByUnitNumber.length;
+            console.log("d.values.id" + function(d) {return d.id;});
+        	console.log("d.values.id" + d.values.id);
+                xScale = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([d3.min(data, function(d) {
+                    
+                	return d.values.id;
+                }), d3.max(data, function(d) {
+                    return d.values.id;
+                })]),
+                yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([d3.min(data, function(d) {
+                    return d.miles;
+                }), d3.max(data, function(d) {
+                    return d.miles;
+                })]),
+                xAxis = d3.svg.axis()
+                .scale(xScale),
+                yAxis = d3.svg.axis()
+                .scale(yScale)
+                .orient("left");
+            
+            vis.append("svg:g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom) + ")")
+                .call(xAxis);
+            vis.append("svg:g")
+                .attr("class", "y axis")
+                .attr("transform", "translate(" + (MARGINS.left) + ",0)")
+                .call(yAxis);
+                
+            var lineGen = d3.svg.line()
+                .x(function(d) {
+                    return xScale(d.year);
+                })
+                .y(function(d) {
+                    return yScale(d.miles);
+                })
+                .interpolate("basis");
+            datasetGroupByUnitNumber.forEach(function(d,i) {
+                vis.append('svg:path')
+                .attr('d', lineGen(d.values))
+                .attr('stroke', function(d,j) { 
+                        return "hsl(" + Math.random() * 360 + ",100%,50%)";
+                })
+                .attr('stroke-width', 2)
+                .attr('id', 'line_'+d.key)
+                .attr('fill', 'none');
             });
-        	
-        	
-        	
-    		// at the end //////////////
-    		// Add the X Axis
-    	    svg.append("g")
-    	        .attr("class", "x axis")
-    	        .attr("transform", "translate(0," + height + ")")
-    	        .call(xAxis);
-
-    	    // Add the Y Axis
-    	    svg.append("g")
-    	        .attr("class", "y axis")
-    	        .call(yAxis);
-    		
 		}
