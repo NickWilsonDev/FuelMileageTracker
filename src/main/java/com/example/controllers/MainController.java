@@ -17,6 +17,13 @@ import com.example.models.RecordRepository;
 import com.example.models.Vehicle;
 import com.example.models.VehicleRepository;
 
+/**
+ * 
+ * @author nick
+ * This class contains methods that deal with specific URLs that are used in this
+ * application. The methods in this class are where the CRUD operations are enabled, such
+ * as adding deleting vehicles and records.
+ */
 @Controller
 public class MainController {
 
@@ -41,6 +48,12 @@ public class MainController {
 		return "main";
 	}
 	
+	/**
+	 * 
+	 * @param model
+	 * @return - The Vehicle template is displayed, includes a form for adding new Vehicles
+	 *           and a list of all vehicles, this may change later as the application grows.
+	 */
 	@RequestMapping("/vehicles")
 	public String vehicles(Model model) {
 		model.addAttribute("vehicle", new Vehicle());
@@ -48,6 +61,14 @@ public class MainController {
 		return "vehicles";
 	}
 	
+	/**
+	 * Method enables us to save a new vehicle to the database.
+	 * 
+	 * @param vehicle - new vehicle object that we want to save into the database
+	 * @param result  - used for error checking, were required fields included?
+	 * @param model   - 
+	 * @return
+	 */
 	@RequestMapping(value = "/addVehicle", method = RequestMethod.POST)
 	public String addVehicle(@Valid @ModelAttribute("vehicle") Vehicle vehicle, BindingResult result, Model model) {
 		if (result.hasErrors()) {
@@ -57,6 +78,13 @@ public class MainController {
 	    return "redirect:vehicles";
 	}
 	
+	/**
+	 * Method shows us the details of a specific Vehicle.
+	 * 
+	 * @param id - used to lookup a specific Vehicle in the database
+	 * @param model
+	 * @return - displays the details of a specific Vehicle from the database
+	 */
 	@RequestMapping(value = "/getVehicle/{id}", method = RequestMethod.GET)
 	public String getVehicle(@PathVariable long id, Model model) {
 		Vehicle vehicle = vehicleRepository.findOne(id);
@@ -64,6 +92,14 @@ public class MainController {
 		return "vehicleDetails";
 	}
 	
+	/**
+	 * Method allows us to update or change specific details of a Vehicle that is already
+	 * in the database.
+	 * 
+	 * @param id - a unique field that is used to find the Vehicle in the database
+	 * @param veh
+	 * @return
+	 */
 	@RequestMapping(value = "/updateVehicle/{id}", method = RequestMethod.POST)
 	public RedirectView updateVehicle(@PathVariable long id, @ModelAttribute Vehicle veh) {
 		Vehicle vehicle = vehicleRepository.findOne(id);

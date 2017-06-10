@@ -7,6 +7,8 @@ package com.example.models;
  * This was copied from this github
  * https://github.com/AustinC/UnitedStates/blob/master/src/main/java/unitedstates/US.java
  *
+ * I simply needed an enum of states for listing possible values for the state field within
+ * forms in this application.
  */
 
 
