@@ -149,7 +149,7 @@ public class MainController {
 	 * This Method acts as a controller to delete a resource (record), specified in the path.
 	 * It then redirects back to the main "/records" url essentially reloading the page with the updated
 	 * data.
-	 * @param id
+	 * @param id  - the unique id for the record we wish to remove from the database
 	 * @return  redirectView - a RedirectView object
 	 */
 	@RequestMapping(value = "/deleteRecord/{id}")
@@ -160,6 +160,15 @@ public class MainController {
 	    return redirectView;
 	}
 	
+	/**
+	 * This method acts as a controller to retrieve a specific record from the database using the
+	 * id parameter. The record is used to populate fields in a form that displays the details of
+	 * the record, if the user wishes they can alter the details of the record and then resave it.
+	 * @param id - the unique id for the record we wish to retrieve the details of
+	 * @param model - Model object that will hold record attributes so they can be displayed when
+	 *                the page is redirected to "recordDetails" template
+	 * @return 
+	 */
 	@RequestMapping(value = "/getRecord/{id}", method = RequestMethod.GET)
 	public String getRecord(@PathVariable long id, Model model) {
 		Record record = recordRepository.findOne(id);
