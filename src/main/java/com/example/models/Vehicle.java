@@ -30,6 +30,7 @@ public class Vehicle {
 	 */
 	private String description;
 
+	/** Getters and Setters **/
 	public long getId() {
 		return id;
 	}
